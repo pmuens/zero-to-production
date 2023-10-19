@@ -1,7 +1,7 @@
 use crate::routes::error_chain_fmt;
+use actix_web::http::StatusCode;
 use actix_web::{web, HttpResponse, ResponseError};
 use anyhow::Context;
-use reqwest::StatusCode;
 use sqlx::PgPool;
 use uuid::Uuid;
 
@@ -25,7 +25,7 @@ impl std::fmt::Debug for ConfirmationError {
 }
 
 impl ResponseError for ConfirmationError {
-    fn status_code(&self) -> reqwest::StatusCode {
+    fn status_code(&self) -> StatusCode {
         match self {
             ConfirmationError::UnknownToken => StatusCode::UNAUTHORIZED,
             ConfirmationError::UnexpectedError(_) => StatusCode::INTERNAL_SERVER_ERROR,
